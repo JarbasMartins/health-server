@@ -1,0 +1,25 @@
+{
+  "name": "@server/auth",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "type": "module",
+  "scripts": {},
+  "devDependencies": {
+    "@server/config": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "better-auth": "^1.4.0",
+    "dotenv": "^17.2.2",
+    "zod": "^4.1.11",
+    "@server/db": "*"
+  }
+}
