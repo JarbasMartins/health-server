@@ -1,26 +1,28 @@
-import "dotenv/config";
-import cors from "cors";
-import express from "express";
-import { auth } from "@server/auth";
-import { toNodeHandler } from "better-auth/node";
-
+import 'dotenv/config';
+import cors from 'cors';
+import express from 'express';
+import { auth } from '@server/auth';
+import { toNodeHandler } from 'better-auth/node';
+import { router as hydrationRoutes } from '@api/modules/hydration/hydration.routes';
 const app = express();
 
 app.use(
     cors({
-        origin: process.env.CORS_ORIGIN || "",
-        methods: ["GET", "POST", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
+        origin: process.env.CORS_ORIGIN || '',
+        methods: ['GET', 'POST', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true,
     })
 );
 
-app.all("/api/auth{/*path}", toNodeHandler(auth));
+app.all('/api/auth{/*path}', toNodeHandler(auth));
 
 app.use(express.json());
 
-app.get("/", (_req, res) => {
-    res.status(200).send("OK");
+app.use('/api/hydration', hydrationRoutes);
+
+app.get('/', (_req, res) => {
+    res.status(200).send('OK');
 });
 
 const port = process.env.PORT || 3000;
