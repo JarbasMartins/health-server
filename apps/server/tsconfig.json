@@ -1,12 +1,17 @@
 {
-	"extends": "@server/config/tsconfig.base.json",
-	"compilerOptions": {
-		"composite": true,
-		"outDir": "dist",
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"jsx": "react-jsx"
-	}
+    "extends": "@server/config/tsconfig.base.json",
+    "compilerOptions": {
+        "composite": true,
+        "outDir": "dist",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"],
+            "@api/*": ["../../packages/api/*"]
+        },
+        "jsx": "react-jsx",
+        "rootDir": "../../",
+        "rootDirs": [".", "../../packages/api"]
+    },
+    "include": ["src/**/*", "../../packages/api/**/*"],
+    "exclude": ["node_modules", "dist"]
 }
