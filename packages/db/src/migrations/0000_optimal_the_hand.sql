@@ -50,4 +50,47 @@ CREATE TABLE `verification` (
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX `verification_identifier_idx` ON `verification` (`identifier`);
+CREATE INDEX `verification_identifier_idx` ON `verification` (`identifier`);--> statement-breakpoint
+CREATE TABLE `hydration` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` text NOT NULL,
+	`total_ml` integer NOT NULL,
+	`date` text NOT NULL,
+	`created_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
+	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `hydration_user_date_idx` ON `hydration` (`user_id`,`date`);--> statement-breakpoint
+CREATE TABLE `medication` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` text NOT NULL,
+	`name` text NOT NULL,
+	`dosage` text NOT NULL,
+	`frequency` text NOT NULL,
+	`category` text NOT NULL,
+	`comment` text,
+	`created_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
+	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE TABLE `medication_schedule` (
+	`id` text PRIMARY KEY NOT NULL,
+	`medication_id` text NOT NULL,
+	`time` text NOT NULL,
+	FOREIGN KEY (`medication_id`) REFERENCES `medication`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE TABLE `mood` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` text NOT NULL,
+	`date` text NOT NULL,
+	`mood` text NOT NULL,
+	`tags` text NOT NULL,
+	`comment` text,
+	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `mood_user_date_idx` ON `mood` (`user_id`,`date`);
