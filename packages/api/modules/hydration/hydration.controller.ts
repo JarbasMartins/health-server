@@ -6,7 +6,9 @@ export const hydrationController = (svc: ReturnType<typeof hydrationService>) =>
         handleSave: async (req: Request, res: Response) => {
             try {
                 const { userId, date, totalMl } = req.body;
-                if (!userId || !date || !totalMl) return res.status(400).json({ error: 'Faltam dados obrigatórios.' });
+                if (!userId || !date || totalMl === undefined || totalMl === null) {
+                    res.status(400).json({ error: 'Faltam dados obrigatórios.' });
+                }
                 const result = await svc.saveIntake({ userId, date, totalMl });
                 return res.status(200).json(result);
             } catch (error) {
