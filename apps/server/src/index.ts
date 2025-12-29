@@ -4,6 +4,8 @@ import express from 'express';
 import { auth } from '@server/auth';
 import { toNodeHandler } from 'better-auth/node';
 import { router as hydrationRoutes } from '@api/modules/hydration/hydration.routes';
+import { router as moodRoutes } from '@api/modules/mood/mood.routes';
+
 const app = express();
 
 app.use(
@@ -20,6 +22,7 @@ app.all('/api/auth{/*path}', toNodeHandler(auth));
 app.use(express.json());
 
 app.use('/api/hydration', hydrationRoutes);
+app.use('/api/mood', moodRoutes);
 
 app.get('/', (_req, res) => {
     res.status(200).send('OK');
