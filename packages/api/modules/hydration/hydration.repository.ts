@@ -20,7 +20,7 @@ export const hydrationRepository = (db: LibSQLDatabase<any>) => ({
     },
 
     saveDailyIntake: async (data: SaveHydrationInput) => {
-        return await db
+        const [result] = await db
             .insert(hydration)
             .values(data)
             .onConflictDoUpdate({
@@ -29,6 +29,9 @@ export const hydrationRepository = (db: LibSQLDatabase<any>) => ({
                     totalMl: data.totalMl,
                     updatedAt: new Date(),
                 },
-            });
+            })
+            .returning();
+
+        return result;
     },
 });
