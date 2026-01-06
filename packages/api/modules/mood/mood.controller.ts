@@ -6,7 +6,7 @@ export const moodController = (svc: ReturnType<typeof moodService>) => {
         handleSaveMood: async (req: Request, res: Response) => {
             try {
                 const { userId, date, mood, tags, comment } = req.body;
-                if (!userId || !date || !mood || !tags || !comment) {
+                if (!userId || !date || !mood || !tags) {
                     return res.status(400).json({ error: 'Faltam dados obrigatórios.' });
                 }
                 const result = await svc.saveMood({ userId, date, mood, tags, comment });
